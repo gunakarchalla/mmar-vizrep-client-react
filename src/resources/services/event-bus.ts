@@ -17,6 +17,10 @@ import type { AttributeInstance } from "@gds/models/instance/Instance_attributes
  *   updateAttributeGui                     -> void
  *   removeAttributeGui                     -> void
  *   ctrlPlusSPressed                       -> void
+ *   tabChanged                             -> void     (not in plan §6; published by
+ *                                                       instance-utility / the tab bar
+ *                                                       when the active tab changes —
+ *                                                       kept for port fidelity)
  */
 export interface EventPayloads {
   login: boolean;
@@ -28,6 +32,7 @@ export interface EventPayloads {
   updateAttributeGui: void;
   removeAttributeGui: void;
   ctrlPlusSPressed: void;
+  tabChanged: void;
 }
 
 export type EventName = keyof EventPayloads;
