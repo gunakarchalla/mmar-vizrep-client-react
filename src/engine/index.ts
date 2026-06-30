@@ -21,6 +21,7 @@ import { mouseObject } from "@/engine/mouse-object";
 import { resize } from "@/engine/resize";
 import { animator } from "@/engine/animator";
 import { arInitiator } from "@/engine/ar-initiator";
+import { graphicContext } from "@/engine/graphic-context";
 import { interactionHandler } from "@/engine/interaction-handler";
 import { instanceCreationHandler } from "@/engine/instance-creation-handler";
 import { transformControlsEvents } from "@/engine/transform-control-events";
@@ -34,6 +35,7 @@ export {
   resize,
   animator,
   arInitiator,
+  graphicContext,
   interactionHandler,
   instanceCreationHandler,
   transformControlsEvents,
