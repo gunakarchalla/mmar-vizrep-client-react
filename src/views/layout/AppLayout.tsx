@@ -8,6 +8,7 @@ import AppFooter from "@/views/footer/AppFooter";
 import AppSnackbar from "@/views/common/AppSnackbar";
 import UserManagementDialog from "@/views/auth/UserManagementDialog";
 import LeftNav from "@/views/left-nav/LeftNav";
+import MiddleBody from "@/views/middle-body/MiddleBody";
 import { useAuthStore } from "@/resources/store/authStore";
 
 // Shared column geometry, mirroring my-app.scss (.column1/.column3 ~20vw capped
@@ -91,8 +92,8 @@ export default function AppLayout() {
             <Box sx={{ ...sideCol, overflowY: "auto" }}>
               <LeftNav />
             </Box>
-            <Box sx={{ ...midCol, overflowY: "auto" }}>
-              <Placeholder label="Middle body (P8)" />
+            <Box sx={{ ...midCol, display: "flex", flexDirection: "column" }}>
+              <MiddleBody />
             </Box>
             <Box
               sx={{
