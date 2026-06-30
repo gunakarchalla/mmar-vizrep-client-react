@@ -22,9 +22,18 @@ import { resize } from "@/engine/resize";
 import { animator } from "@/engine/animator";
 import { arInitiator } from "@/engine/ar-initiator";
 import { graphicContext } from "@/engine/graphic-context";
+// global-* state holders the dynamics handlers depend on (P5).
+import { globalSelectedObject } from "@/engine/global-selected-object";
+import { globalClassObject } from "@/engine/global-class-object";
+import { globalRelationclassObject } from "@/engine/global-relationclass-object";
+import { globalStateObject } from "@/engine/global-state-object";
 import { interactionHandler } from "@/engine/interaction-handler";
 import { instanceCreationHandler } from "@/engine/instance-creation-handler";
 import { transformControlsEvents } from "@/engine/transform-control-events";
+import { lineUpdateService } from "@/engine/line-update-service";
+// vizrep-update-checker subscribes to the bus in its constructor — importing it
+// here registers the checkForVizRepUpdate* listeners when the engine module loads.
+import { vizrepUpdateChecker } from "@/engine/vizrep-update-checker";
 import { sceneInitiator } from "@/engine/scene-initiator";
 import { initiator } from "@/engine/initiator";
 
@@ -36,9 +45,15 @@ export {
   animator,
   arInitiator,
   graphicContext,
+  globalSelectedObject,
+  globalClassObject,
+  globalRelationclassObject,
+  globalStateObject,
   interactionHandler,
   instanceCreationHandler,
   transformControlsEvents,
+  lineUpdateService,
+  vizrepUpdateChecker,
   sceneInitiator,
   initiator,
 };

@@ -3,14 +3,11 @@ import { globalObject } from "@/engine/global-definition";
 import { rayHelper } from "@/engine/ray-helper";
 
 /**
- * PHASE 3 PARTIAL STUB — completed in Phase 5.
- *
- * The full `interaction_handler.ts` depends on GraphicContext (P4) + several
- * utilities and is a Phase 5 port. The engine core (P3) only registers
- * `onDocumentMouseDown` as the `pointerdown` listener (wired in the initiator).
- * That method is ported faithfully here (it only touches `transformControls` +
- * `rayHelper`, both of which exist by P3). The Phase 5 agent must REPLACE this
- * file with the full port (keeping `onDocumentMouseDown` + these imports).
+ * Full Phase 5 port of the old `resources/interaction_handler.ts` (DI-stripping
+ * recipe). The original class only defines `onDocumentMouseDown` (the
+ * `pointerdown` listener wired by the initiator) + the `parseObj` helper; its
+ * unused GraphicContext / utility / EventAggregator injections are dropped. Bodies
+ * unchanged.
  */
 export class InteractionHandler {
   private objects: THREE.Mesh[];
