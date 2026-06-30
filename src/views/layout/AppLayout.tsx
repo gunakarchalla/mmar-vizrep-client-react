@@ -7,6 +7,7 @@ import StateWindow from "@/views/state-window/StateWindow";
 import AppFooter from "@/views/footer/AppFooter";
 import AppSnackbar from "@/views/common/AppSnackbar";
 import UserManagementDialog from "@/views/auth/UserManagementDialog";
+import LeftNav from "@/views/left-nav/LeftNav";
 import { useAuthStore } from "@/resources/store/authStore";
 
 // Shared column geometry, mirroring my-app.scss (.column1/.column3 ~20vw capped
@@ -88,7 +89,7 @@ export default function AppLayout() {
           {/* main 3-column body */}
           <Box sx={{ flex: 1, display: "flex", minHeight: 0 }}>
             <Box sx={{ ...sideCol, overflowY: "auto" }}>
-              <Placeholder label="Left nav (P7)" />
+              <LeftNav />
             </Box>
             <Box sx={{ ...midCol, overflowY: "auto" }}>
               <Placeholder label="Middle body (P8)" />
