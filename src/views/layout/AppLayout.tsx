@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import TopNavBar from "@/views/top-nav-bar/TopNavBar";
 import ToolbarContainer from "@/views/toolbar-container/ToolbarContainer";
 import MainBodyTabBar from "@/views/main-body-tab-bar/MainBodyTabBar";
@@ -9,6 +9,8 @@ import AppSnackbar from "@/views/common/AppSnackbar";
 import UserManagementDialog from "@/views/auth/UserManagementDialog";
 import LeftNav from "@/views/left-nav/LeftNav";
 import MiddleBody from "@/views/middle-body/MiddleBody";
+import RightNav from "@/views/right-nav/RightNav";
+import LogWindow from "@/views/log-window/LogWindow";
 import { useAuthStore } from "@/resources/store/authStore";
 
 // Shared column geometry, mirroring my-app.scss (.column1/.column3 ~20vw capped
@@ -29,25 +31,6 @@ const midCol = {
   borderRight: "1px solid",
   borderColor: "primary.main",
 } as const;
-
-// Lightweight placeholder until the real views land (LeftNav P7, MiddleBody P8,
-// RightNav + LogWindow P9). Each phase replaces its placeholder with the import.
-function Placeholder({ label }: { label: string }) {
-  return (
-    <Box
-      sx={{
-        height: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        color: "text.secondary",
-        p: 2,
-      }}
-    >
-      <Typography variant="body2">{label}</Typography>
-    </Box>
-  );
-}
 
 // Mirrors my-app.html + main-body-tab-bar.html: the full app chrome — title bar,
 // toolbar row, scene-tab/state row, 3-column body, footer, snackbar and the
@@ -105,8 +88,8 @@ export default function AppLayout() {
                 flexDirection: "column",
               }}
             >
-              <Box sx={{ flex: 1, overflowY: "auto" }}>
-                <Placeholder label="Right nav (P9)" />
+              <Box sx={{ flex: 1, overflowY: "auto", minHeight: 0 }}>
+                <RightNav />
               </Box>
               <Box
                 sx={{
@@ -116,7 +99,7 @@ export default function AppLayout() {
                   overflowY: "auto",
                 }}
               >
-                <Placeholder label="Log window (P9)" />
+                <LogWindow />
               </Box>
             </Box>
           </Box>

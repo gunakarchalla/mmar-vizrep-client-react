@@ -24,8 +24,10 @@ interface Props {
 // success we trigger the global refresh so the left-nav lists load (P7).
 // Dev credentials are admin / admin.
 export default function UserManagementDialog({ open, onClose }: Props) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  // Prefill the dev credentials (admin / admin), mirroring the old user-management
+  // dialog which seeded its fields from process.env.USERNAME/PASSWORD.
+  const [username, setUsername] = useState("admin");
+  const [password, setPassword] = useState("admin");
   const [errorMessage, setErrorMessage] = useState("");
 
   const login = useAuthStore((s) => s.login);
