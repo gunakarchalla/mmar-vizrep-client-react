@@ -67,7 +67,11 @@ export class GlobalDefinition {
   role_instances: RoleInstance[];
   relationObjects: THREE.Mesh[];
   sceneTypes: SceneType[];
-  onDocumentMouseDownEventListener: void;
+  // Holds the bound interaction-handler `onDocumentMouseDown` so the same
+  // reference can be added/removed as the renderer `pointerdown` listener. The
+  // original typed this `void`; under strict TS that cannot hold a function, so
+  // it is widened to `any` (runtime behaviour is identical).
+  onDocumentMouseDownEventListener: any;
   sceneTree: any[];
   importSceneTypes: SceneType[];
   importSceneInstances: SceneInstance[];
