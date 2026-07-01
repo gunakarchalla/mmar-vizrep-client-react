@@ -15,6 +15,7 @@
  * (`initiator.init()` + `initiator.initEventListeners()`) and the old
  * `#container` DOM-polling — the container element is passed in directly.
  */
+import { ARButton } from "three/examples/jsm/webxr/ARButton.js";
 import { globalObject } from "@/engine/global-definition";
 import { rayHelper } from "@/engine/ray-helper";
 import { mouseObject } from "@/engine/mouse-object";
@@ -77,6 +78,9 @@ export const engine = {
     if (!initialized) {
       await initiator.init();
       await initiator.initEventListeners();
+      // Phase 11: turn on WebXR + wire session start/end. Harmless on devices
+      // without XR (the ARButton just reports "AR NOT SUPPORTED").
+      arInitiator.enableXR();
       initialized = true;
     } else {
       if (globalObject.renderer.domElement.parentElement !== container) {
@@ -111,6 +115,21 @@ export const engine = {
     }
     globalObject.camera = globalObject.normalCamera;
     globalObject.render = true;
+  },
+
+  /**
+   * Phase 11: create three's ARButton bound to our renderer. It feature-detects
+   * `immersive-ar` and starts/ends the XR session on click (which fires the
+   * sessionstart/sessionend listeners registered by `arInitiator.enableXR()`);
+   * on unsupported browsers it renders an inert "AR NOT SUPPORTED" label, so the
+   * non-AR path is unaffected. `hand-tracking` is requested optionally for the
+   * pinch-to-grab hands in `arInitiator.initHands()`.
+   */
+  createARButton(): HTMLElement {
+    arInitiator.enableXR();
+    return ARButton.createButton(globalObject.renderer, {
+      optionalFeatures: ["hand-tracking"],
+    });
   },
 
   /**

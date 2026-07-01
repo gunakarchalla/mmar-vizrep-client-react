@@ -17,6 +17,7 @@ export default function ThreeCanvas() {
 
     let disposed = false;
     let observer: ResizeObserver | undefined;
+    let arButton: HTMLElement | undefined;
 
     engine.mount(el).then(() => {
       if (disposed) return;
@@ -25,11 +26,17 @@ export default function ThreeCanvas() {
       resize.resize();
       observer = new ResizeObserver(() => resize.resize());
       observer.observe(el);
+      // Phase 11: overlay three's ARButton on the canvas. It feature-detects XR
+      // (shows an inert "AR NOT SUPPORTED" label otherwise) and toggles the AR
+      // session, which drives arInitiator.onSessionStarted/onSessionEnded.
+      arButton = engine.createARButton();
+      el.appendChild(arButton);
     });
 
     return () => {
       disposed = true;
       observer?.disconnect();
+      arButton?.remove();
       engine.unmount();
     };
   }, []);
@@ -39,7 +46,7 @@ export default function ThreeCanvas() {
       ref={containerRef}
       className="three_canvas"
       id="container"
-      sx={{ width: "100%", height: "55%", bgcolor: "#1e1e1e", overflow: "hidden" }}
+      sx={{ position: "relative", width: "100%", height: "55%", bgcolor: "#1e1e1e", overflow: "hidden" }}
     />
   );
 }
