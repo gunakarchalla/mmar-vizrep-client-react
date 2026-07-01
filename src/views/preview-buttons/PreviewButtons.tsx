@@ -1,10 +1,7 @@
 import { useEffect } from "react";
 import { Box, Button } from "@mui/material";
-import { Class, Port, Relationclass } from "@gds";
-import { useSelectedObjectStore } from "@/resources/store/selectedObjectStore";
-import { backendService } from "@/resources/services/backend-service";
-import { logger } from "@/resources/services/logger";
 import { eventBus } from "@/resources/services/event-bus";
+import { saveSelectedObject } from "@/resources/services/save-selected";
 import { runPreview } from "@/views/preview-buttons/preview-pipeline";
 
 // Ports `views/preview-buttons/preview-buttons.{ts,html}`. Two actions:
@@ -29,38 +26,8 @@ export default function PreviewButtons() {
     eventBus.publish("previewButtonClicked");
   }
 
-  async function save() {
-    const store = useSelectedObjectStore.getState();
-    const objectToPatch = store.getSelectedObject();
-    const type = store.type;
-
-    if (!objectToPatch) {
-      logger.log("No object selected to save", "error");
-      return;
-    }
-
-    if (type === "Class") {
-      backendService
-        .classesPATCH(objectToPatch.uuid, objectToPatch as unknown as Class)
-        .then(() => logger.log("Class updated successfully", "info"))
-        .catch((error) =>
-          logger.log("Error updating class:" + objectToPatch.uuid + " with message " + error, "error"),
-        );
-    } else if (type === "RelationClass") {
-      backendService
-        .relationClassesPATCH(objectToPatch.uuid, objectToPatch as unknown as Relationclass)
-        .then(() => logger.log("Relationclass updated successfully", "info"))
-        .catch((error) =>
-          logger.log("Error updating relationclass:" + objectToPatch.uuid + " with message " + error, "error"),
-        );
-    } else if (type === "Port") {
-      backendService
-        .portsPATCH(objectToPatch.uuid, objectToPatch as unknown as Port)
-        .then(() => logger.log("Port updated successfully", "info"))
-        .catch((error) =>
-          logger.log("Error updating port:" + objectToPatch.uuid + " with message " + error, "error"),
-        );
-    }
+  function save() {
+    void saveSelectedObject();
   }
 
   return (

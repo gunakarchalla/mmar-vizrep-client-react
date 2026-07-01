@@ -6,6 +6,8 @@ import RedoIcon from "@mui/icons-material/Redo";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useAuthStore } from "@/resources/store/authStore";
 import { useLogStore } from "@/resources/store/logStore";
+import { useEditorStore } from "@/resources/store/editorStore";
+import { engine } from "@/engine";
 
 interface Props {
   onOpenLogin: () => void;
@@ -20,6 +22,17 @@ export default function ToolbarContainer({ onOpenLogin }: Props) {
   const currentUser = useAuthStore((s) => s.currentUser);
   const logout = useAuthStore((s) => s.logout);
   const log = useLogStore((s) => s.log);
+  const threeDimensional = useEditorStore((s) => s.threeDimensional);
+  const setThreeDimensional = useEditorStore((s) => s.setThreeDimensional);
+
+  // Toggle the preview between 3D (perspective) and 2D (orthographic). editorStore
+  // is the React-facing mirror; engine.setThreeDimensional swaps the actual camera
+  // + orbit controls and requests a re-render.
+  function toggleDimension() {
+    const next = !threeDimensional;
+    setThreeDimensional(next);
+    engine.setThreeDimensional(next);
+  }
 
   return (
     <Box
@@ -82,6 +95,14 @@ export default function ToolbarContainer({ onOpenLogin }: Props) {
         <IconButton size="small" onClick={() => log("delete", "info")}>
           <DeleteIcon fontSize="small" />
         </IconButton>
+      </Tooltip>
+
+      <Divider orientation="vertical" flexItem />
+
+      <Tooltip title={threeDimensional ? "switch to 2D" : "switch to 3D"}>
+        <Button variant="outlined" size="small" onClick={toggleDimension} sx={{ minWidth: 44 }}>
+          {threeDimensional ? "3D" : "2D"}
+        </Button>
       </Tooltip>
     </Box>
   );

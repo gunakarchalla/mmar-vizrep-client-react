@@ -11,6 +11,7 @@ import LeftNav from "@/views/left-nav/LeftNav";
 import MiddleBody from "@/views/middle-body/MiddleBody";
 import RightNav from "@/views/right-nav/RightNav";
 import LogWindow from "@/views/log-window/LogWindow";
+import { useKeyboardShortcuts } from "@/views/layout/useKeyboardShortcuts";
 import { useAuthStore } from "@/resources/store/authStore";
 
 // Shared column geometry, mirroring my-app.scss (.column1/.column3 ~20vw capped
@@ -39,6 +40,10 @@ const midCol = {
 export default function AppLayout() {
   const currentUser = useAuthStore((s) => s.currentUser);
   const [loginOpen, setLoginOpen] = useState(false);
+
+  // Window-level keyboard shortcuts (Ctrl+S save, arrow-key nudge). Registered
+  // once for the app lifetime; the handlers no-op when nothing is selected.
+  useKeyboardShortcuts();
 
   // Auto-open the login dialog when not authenticated.
   useEffect(() => {

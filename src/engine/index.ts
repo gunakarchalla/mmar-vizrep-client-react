@@ -89,6 +89,31 @@ export const engine = {
   },
 
   /**
+   * Switch the live preview between 2D (orthographic) and 3D (perspective).
+   *
+   * The old client only ever set `threeDimensional` once, at init
+   * (`initiator.initOrbitControls` picks the matching camera/controls). Here the
+   * toolbar exposes a runtime toggle, so this swaps the active camera + orbit
+   * controls the same way init does and flags a re-render. Cameras/controls only
+   * exist after `mount()`/`init()`, so before that we just record the flag and the
+   * next `init()` honours it.
+   */
+  setThreeDimensional(is3d: boolean): void {
+    globalObject.threeDimensional = is3d;
+    if (!initialized) return;
+
+    if (is3d) {
+      globalObject.normalCamera = globalObject.normalCamera3d;
+      globalObject.orbitControls = globalObject.orbitControls3d;
+    } else {
+      globalObject.normalCamera = globalObject.normalCamera2d;
+      globalObject.orbitControls = globalObject.orbitControls2d;
+    }
+    globalObject.camera = globalObject.normalCamera;
+    globalObject.render = true;
+  },
+
+  /**
    * Stop the render loop and detach the canvas from the DOM. The singleton scene /
    * cameras / controls are preserved so a later `mount()` is a cheap re-attach.
    */
