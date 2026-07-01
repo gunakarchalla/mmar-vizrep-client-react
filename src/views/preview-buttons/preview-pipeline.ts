@@ -58,6 +58,20 @@ export async function runPreview(): Promise<void> {
   }
   const sceneType = globalObject.sceneTypes[0];
 
+  // Bridge the loaded meta objects (selectedObjectStore) onto the mock SceneType.
+  // Every meta lookup used by the pipeline and the attribute window —
+  // metaUtility.getMetaClass / getMetaRelationclass / getMetaPort — resolves the
+  // concept from `tabContext.sceneType.{classes,relationclasses,ports}`, and the
+  // tab-context scene type IS this mock SceneType. The old client wired this once
+  // in `left-nav.ts` (`sceneType.classes = classes; sceneType.relationclasses =
+  // relationClasses; sceneType.ports = ports;`); the React LeftNav only fills the
+  // store, so without this the mock SceneType stays empty, getMetaClass returns
+  // undefined, and createClassInstance throws on `metaclass.name` — which broke
+  // both the 3D preview and the (preview-driven) attribute window.
+  sceneType.classes = store.getClasses();
+  sceneType.relationclasses = store.getRelationClasses();
+  sceneType.ports = store.getPorts();
+
   // --- reset engine + current-instance state (object-card.onButtonClicked) ---
   await graphicContext.resetInstance();
   globalObject.current_class_instance = null as unknown as ClassInstance;
